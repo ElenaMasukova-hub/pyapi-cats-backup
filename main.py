@@ -1,15 +1,20 @@
 import requests
 import json
+from urllib.parse import quote
 
-CATAAS_URL = "https://cataas.com/cat"
+CATAAS_URL = "https://cataas.com/cat"  
 YANDEX_BASE_URL = "https://cloud-api.yandex.net/v1/disk"
 
 
+from urllib.parse import quote  
+
 def get_cat_image_bytes(text: str) -> bytes:
-    params = {
-        "type": "medium"  
-    }
-    response = requests.get(CATAAS_URL, params=params)
+    encoded_text = quote(text)
+    url = f"https://cataas.com/cat/says/{encoded_text}"
+    
+    print(f"Запрос к cataas: {url}")  
+    
+    response = requests.get(url)
     response.raise_for_status()
     return response.content
 
